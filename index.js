@@ -9,14 +9,13 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })  
 let portNumber = 5000;
 let currentJoke = "";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-await client.connect();
 
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
 const db = process.env.MONGO_DB_NAME;
 const collection = process.env.MONGO_COLLECTION;
 const uri = `mongodb+srv://${userName}:${password}@cluster0.c9qchbe.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 /* Initializes request.body with post information */ 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -88,5 +87,9 @@ app.post("/", async (request, response) => {
     response.render("index", variables);
 });
 
-let server = app.listen(portNumber);
-console.log(`Web server started and running at http://localhost:${portNumber}`);
+async function startServer() {
+    await client.connect();
+    app.listen(portNumber);
+}
+
+startServer();
