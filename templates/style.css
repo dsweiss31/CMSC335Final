@@ -1,0 +1,17 @@
+h1 {
+    color: red;
+}
+
+p {
+    font-size: large;
+}
+
+label {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+input[type=submit] {
+    border-radius: 12px;
+    border-width: 1px;
+}
