@@ -9,6 +9,8 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })  
 let portNumber = 5000;
 let currentJoke = "";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+await client.connect();
 
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
@@ -49,10 +51,7 @@ app.get("/", async (request, response) => {
         console.log(error);
     }
 
-    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-
     try {
-        await client.connect();
         await client.db(db).collection(collection).insertOne({ joke: variables.joke });
     } catch (e) {
         console.error(e);
@@ -68,7 +67,6 @@ app.post("/", async (request, response) => {
     let variables = { joke: currentJoke, jokes: "No jokes were found with the given search string."};
     try {
         let html = "";
-        await client.connect();
 
         let filter = { joke: { $regex: request.body.search }};
         const cursor = await client.db(db)
