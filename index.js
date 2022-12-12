@@ -37,7 +37,7 @@ app.get("/", async (request, response) => {
         url: 'https://matchilling-chuck-norris-jokes-v1.p.rapidapi.com/jokes/random',
         headers: {
           accept: 'application/json',
-          'X-RapidAPI-Key': '59c6cef051mshda985367aa0f70ap1c82fejsne2e577550fcd',
+          'X-RapidAPI-Key': process.env.AXIOS_API_KEY,
           'X-RapidAPI-Host': 'matchilling-chuck-norris-jokes-v1.p.rapidapi.com'
         }
     };
