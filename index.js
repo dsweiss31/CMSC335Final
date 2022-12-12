@@ -51,6 +51,7 @@ app.get("/", async (request, response) => {
     }
 
     try {
+        await client.connect();
         await client.db(db).collection(collection).insertOne({ joke: variables.joke });
     } catch (e) {
         console.error(e);
@@ -65,6 +66,7 @@ app.post("/", async (request, response) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
     let variables = { joke: currentJoke, jokes: "No jokes were found with the given search string."};
     try {
+        await client.connect();
         let html = "";
 
         let filter = { joke: { $regex: request.body.search }};
@@ -87,11 +89,7 @@ app.post("/", async (request, response) => {
     response.render("index", variables);
 });
 
-client.connect(err => {
-    if(err){ console.error(err); return false;}
-    // connection to mongo is successful, listen for requests
-    app.listen(portNumber, () => {
-        console.log("listening for requests");
-    })
-});
+app.listen(portNumber, () => {
+    console.log("listening for requests");
+})
 
