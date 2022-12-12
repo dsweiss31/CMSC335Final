@@ -90,6 +90,6 @@ app.post("/", async (request, response) => {
 });
 
 app.listen(PORT, () => {
-    console.log("listening for requests");
+    console.log(`listening for requests on port ${PORT}`);
 })
 
