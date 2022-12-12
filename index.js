@@ -7,7 +7,7 @@ const app = express();  /* app is a request handler function */
 const axios = require("axios");
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })  
-let portNumber = 5000;
+const PORT = process.env.PORT | 3030;
 let currentJoke = "";
 
 const userName = process.env.MONGO_DB_USERNAME;
@@ -89,7 +89,7 @@ app.post("/", async (request, response) => {
     response.render("index", variables);
 });
 
-app.listen(portNumber, () => {
+app.listen(PORT, () => {
     console.log("listening for requests");
 })
 
