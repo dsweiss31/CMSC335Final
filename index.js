@@ -87,9 +87,11 @@ app.post("/", async (request, response) => {
     response.render("index", variables);
 });
 
-async function startServer() {
-    await client.connect();
-    app.listen(portNumber);
-}
+client.connect(err => {
+    if(err){ console.error(err); return false;}
+    // connection to mongo is successful, listen for requests
+    app.listen(portNumber, () => {
+        console.log("listening for requests");
+    })
+});
 
-startServer();
